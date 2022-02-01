@@ -34,10 +34,10 @@ RectTransform:
   m_Father: {fileID: 5130835832361830149}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7154818658861089318
 CanvasRenderer:
@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
-  m_EffectDistance: {x: 0.1, y: 0.1}
+  m_EffectDistance: {x: 4, y: 4}
   m_UseGraphicAlpha: 0
 --- !u!1 &5059203881975838069
 GameObject:
@@ -127,7 +127,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 32, y: 32}
+  m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4922973202562581728
 MonoBehaviour:
@@ -145,6 +145,8 @@ MonoBehaviour:
   incorrectColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   correctLetterColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   correctPositionColor: {r: 0, g: 1, b: 0, a: 1}
+  selectedColor: {r: 0, g: 1, b: 0, a: 1}
+  unselectedColor: {r: 0, g: 0, b: 0, a: 1}
   letterText: {fileID: 4142705407588469841}
 --- !u!1 &8394247276917148567
 GameObject:
@@ -238,8 +240,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 32
-  m_fontSizeBase: 32
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -16,6 +16,7 @@ public class LetterBoxManager : MonoBehaviour
     private int currentLetter = 0;
     private string targetWord;
     public Button newGameButton;
+    bool gameOver = false;
 
     // Start is called before the first frame update
     void Start()
@@ -52,27 +53,33 @@ public class LetterBoxManager : MonoBehaviour
     }
 
     void newGame(){
+        gameOver = false;
         clear();
         getTargetWord();
+        grid[0,0].selected = true;
     }
 
     void OnGUI()
     {
         Event e = Event.current;
-        if (e.isKey && e.type == EventType.KeyDown)
+        if (!gameOver && e.isKey && e.type == EventType.KeyDown)
         {
             if (e.keyCode >= KeyCode.A && e.keyCode <= KeyCode.Z)
             {
                 //set current letter and go to next
-                if (currentLetter < letterCount) grid[currentWord, currentLetter].letter = e.keyCode.ToString();
-                if (++currentLetter > letterCount) currentLetter = letterCount;
+                if (currentLetter < letterCount){
+                    if(currentLetter >= 0)grid[currentWord,currentLetter].selected = false;
+                    grid[currentWord, currentLetter++].letter = e.keyCode.ToString();
+                    if(currentLetter < letterCount)grid[currentWord,currentLetter].selected = true;
+                }
             }
             else if (e.keyCode == KeyCode.Backspace)
             {
-                //clear current letter
-                if (currentLetter == letterCount) --currentLetter;
-                grid[currentWord, currentLetter].letter = "";
-                if (--currentLetter == -1) currentLetter = 0;
+                if(currentLetter > 0){
+                    if(currentLetter < letterCount)grid[currentWord,currentLetter].selected = false;
+                    grid[currentWord, --currentLetter].letter = "";
+                    if(currentLetter >= 0)grid[currentWord,currentLetter].selected = true;
+                }
             }
             else if (e.keyCode == KeyCode.Return)
             {
@@ -86,39 +93,35 @@ public class LetterBoxManager : MonoBehaviour
                 word = word.ToLower();
                 if (words.Contains(word))
                 {
+                    //set correctness
+                    for(int i = 0; i < letterCount; ++i){
+                        if(word[i] == targetWord[i]){
+                            grid[currentWord,i].setCorrectness(LetterBox.Correctness.CorrectPosition);
+                        }else if(targetWord.Contains(word[i].ToString())){
+                            grid[currentWord,i].setCorrectness(LetterBox.Correctness.CorrectLetter);
+                        }else{
+                            grid[currentWord,i].setCorrectness(LetterBox.Correctness.Incorrect);
+                        }
+                    }
                     //if correct, win
                     if (word == targetWord)
                     {
                         Debug.Log("YOU WIN");
-                        for(int i = 0; i < letterCount; ++i){
-                            grid[currentWord,i].setCorrectness(LetterBox.Correctness.CorrectPosition);
-                        }
+                        gameOver = true;
                         return;
                     }
                     else if (currentWord == wordCount - 1)
                     {
                         Debug.Log("YOU LOSE");
+                        gameOver = true;
                         return;
                     }
                     else
                     {
-                        //set correctness
-                        for(int i = 0; i < letterCount; ++i){
-                            if(word[i] == targetWord[i]){
-                                grid[currentWord,i].setCorrectness(LetterBox.Correctness.CorrectPosition);
-                            }else if(targetWord.Contains(word[i].ToString())){
-                                grid[currentWord,i].setCorrectness(LetterBox.Correctness.CorrectLetter);
-                            }else{
-                                grid[currentWord,i].setCorrectness(LetterBox.Correctness.Incorrect);
-                            }
-                        }
-
                         //else go to next word or loss if at last
                         ++currentWord;
                         currentLetter = 0;
                     }
-
-
                 }
                 else
                 {
